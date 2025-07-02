@@ -1,0 +1,70 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h1 class="h4">Update role</h1>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+
+        <!-- Selector de Scope -->
+        <fieldset class="mb-3">
+          <legend class="form-label">Selecciona el scope del rol que deseas actualizar</legend>
+          <select formControlName="scope" class="form-select" required>
+            <option value="" disabled>Selecciona un scope</option>
+            <option *ngFor="let option of scopeOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="updateForm.get('scope')?.touched && updateForm.get('scope')?.invalid" class="text-danger">
+            Debes seleccionar un scope.
+          </div>
+        </fieldset>
+
+        <!-- Campo de JSON -->
+        <div class="mb-3">
+          <label class="form-label">
+            JSON con la definición del rol a actualizar
+            <small class="text-muted d-block">
+              (Debe incluir propiedades como "name", "type", "properties.roleName", "permissions", "assignableScopes", etc.)
+            </small>
+          </label>
+          <textarea
+            class="form-control"
+            rows="10"
+            formControlName="jsonDefinition"
+            [placeholder]="jsonPlaceholder"
+          ></textarea>
+
+          <!-- Errores del campo JSON -->
+          <div *ngIf="updateForm.get('jsonDefinition')?.touched">
+
+            <div *ngIf="updateForm.get('jsonDefinition')?.hasError('required')" class="text-danger mt-1">
+              El campo no puede estar vacío.
+            </div>
+
+            <div *ngIf="updateForm.get('jsonDefinition')?.errors?.['invalidJson']" class="text-danger">
+              El JSON no es válido.
+            </div>
+
+            <div *ngIf="updateForm.get('jsonDefinition')?.errors?.['missingKeys']" class="text-danger">
+              Faltan claves requeridas: {{ updateForm.get('jsonDefinition')?.errors?.['missingKeys'].join(', ') }}
+            </div>
+
+            <div *ngIf="updateForm.get('jsonDefinition')?.errors?.['nameScopeMismatch']" class="text-danger">
+              El campo "name" debe coincidir con el scope seleccionado.
+            </div>
+
+            <div *ngIf="updateForm.get('jsonDefinition')?.errors?.['assignableScopeMismatch']" class="text-danger">
+              El scope seleccionado no está incluido en "assignableScopes".
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary" [disabled]="updateForm.invalid">Actualizar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

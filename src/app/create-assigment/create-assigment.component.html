@@ -1,0 +1,97 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h1 class="h4">Create assignment</h1>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="assignmentForm" (ngSubmit)="onSubmit()">
+        <fieldset class="mb-3">
+          <legend class="form-label">Elige el tipo de scope</legend>
+          <select formControlName="scope" class="form-select" required>
+            <option value="" disabled>Selecciona un scope</option>
+            <option *ngFor="let option of scopeOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="assignmentForm.get('scope')?.touched && assignmentForm.get('scope')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+          </div>
+
+          <div class="mb-3 mt-3">
+            <label class="form-label">ID del scope donde está asignado el rol (Si es un grupo de recursos ingresa el subscription ID seguido de un slash(/) y el ID del grupo de recursos)</label>
+            <input type="text" class="form-control" formControlName="scopeId" required />
+            <div *ngIf="assignmentForm.get('scopeId')?.touched && assignmentForm.get('scopeId')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre del rol a asignar</label>
+            <input type="text" class="form-control" formControlName="roleName" required />
+            <div *ngIf="assignmentForm.get('roleName')?.touched && assignmentForm.get('roleName')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="mb-3">
+          <legend class="form-label">Elige el tipo de entidad</legend>
+          <select formControlName="entity" class="form-select" required>
+            <option value="" disabled>Selecciona una entidad</option>
+            <option *ngFor="let option of entityOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="assignmentForm.get('entity')?.touched && assignmentForm.get('entity')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+          </div>
+        </fieldset>
+
+        <div class="mb-3">
+          <label class="form-label">Nombre del grupo de seguridad, correo del usuario o ID del Service Principal</label>
+          <input type="text" class="form-control" formControlName="entityIdentifier" required />
+            <div *ngIf="assignmentForm.get('entityIdentifier')?.touched && assignmentForm.get('entityIdentifier')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+            </div>
+        </div>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="temporalAssignment" formControlName="temporalAssignment" />
+          <label class="form-check-label" for="temporalAssignment">
+            ¿Es una asignación temporal?
+          </label>
+        </div>
+
+        <div *ngIf="assignmentForm.get('temporalAssignment')?.value">
+          <div class="mb-3">
+            <label class="form-label">Fecha de Expiración</label>
+            <input type="date" class="form-control" formControlName="expirationDate" />
+            <div *ngIf="assignmentForm.get('expirationDate')?.touched && assignmentForm.get('expirationDate')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Hora de Expiración (HH:mm)</label>
+            <input type="time" class="form-control" formControlName="expirationTime" />
+            <div *ngIf="assignmentForm.get('expirationTime')?.touched && assignmentForm.get('expirationTime')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Justificación de la asignación</label>
+            <input type="text" class="form-control" formControlName="justification" required />
+            <div *ngIf="assignmentForm.get('justification')?.touched && assignmentForm.get('justification')?.invalid" class="text-danger">
+            Este campo es obligatorio.
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary" [disabled]="assignmentForm.invalid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
