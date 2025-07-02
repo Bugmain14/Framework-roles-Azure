@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h1 class="h4">Delete role assignment</h1>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="deleteForm" (ngSubmit)="onSubmit()">
+
+        <!-- Scope -->
+        <fieldset class="mb-3">
+          <legend class="form-label">Elige el tipo de scope</legend>
+          <select formControlName="scope" class="form-select" required>
+            <option value="" disabled>Selecciona un scope</option>
+            <option *ngFor="let option of scopeOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="deleteForm.get('scope')?.touched && deleteForm.get('scope')?.invalid" class="text-danger">
+            Debes seleccionar un scope.
+          </div>
+        </fieldset>
+
+        <!-- Scope ID -->
+        <div class="mb-3">
+          <label class="form-label">
+            ID del scope donde está asignado el rol <br>
+            <small>(Si es un grupo de recursos, ingresa el subscription ID seguido de / y el ID del grupo)</small>
+          </label>
+          <input type="text" class="form-control" formControlName="scopeId" required />
+          <div *ngIf="deleteForm.get('scopeId')?.touched && deleteForm.get('scopeId')?.invalid" class="text-danger">
+          Este Campo es obligatorio.
+          </div>
+        </div>
+
+        <!-- Role name -->
+        <div class="mb-3">
+          <label class="form-label">Nombre del rol a eliminar</label>
+          <input type="text" class="form-control" formControlName="roleName" required placeholder="Rol que deseas eliminar" />
+          <div *ngIf="deleteForm.get('roleName')?.touched && deleteForm.get('roleName')?.invalid" class="text-danger">
+          Este Campo es obligatorio.
+          </div>
+        </div>
+
+        <!-- Entity type -->
+        <fieldset class="mb-3">
+          <legend class="form-label">Tipo de entidad</legend>
+          <select formControlName="entity" class="form-select" required>
+            <option value="" disabled>Selecciona una entidad</option>
+            <option *ngFor="let option of entityOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="deleteForm.get('entity')?.touched && deleteForm.get('entity')?.invalid" class="text-danger">
+            Debes seleccionar una entidad.
+          </div>
+        </fieldset>
+
+        <!-- Entity ID -->
+        <div class="mb-3">
+          <label class="form-label">
+            ID del usuario, grupo, service principal o identidad administrada con el rol asignado
+          </label>
+          <input type="text" class="form-control" formControlName="entityId" required />
+          <div *ngIf="deleteForm.get('entityId')?.touched && deleteForm.get('entityId')?.invalid" class="text-danger">
+          Este Campo es obligatorio.
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-danger" [disabled]="deleteForm.invalid">Eliminar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
