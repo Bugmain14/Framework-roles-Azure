@@ -1,0 +1,71 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h1 class="h4">Custom role definition</h1>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="roleForm">
+        <!-- Dropdown de scopes -->
+        <fieldset class="mb-3">
+          <legend class="form-label">Elige scope donde deseas crear la definición de rol</legend>
+          <select class="form-select" formControlName="scope">
+            <option value="" disabled>Selecciona un scope</option>
+            <option *ngFor="let option of visibleScopes" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="roleForm.get('scope')?.touched && roleForm.get('scope')?.invalid" class="text-danger">
+            Debes seleccionar un scope.
+          </div>
+        </fieldset>
+
+        <!-- Textarea JSON -->
+        <div class="mb-3">
+          <label class="form-label">
+            Pega aquí el JSON del rol (debe incluir "name", "type" y dentro de "properties":
+            "roleName", "permissions", "assignableScopes")
+          </label>
+          <textarea
+            class="form-control"
+            rows="7"
+            formControlName="jsonDefinition"
+            [placeholder]="jsonPlaceholder"
+          ></textarea>
+
+          <!-- Error: campo vacío -->
+          <div *ngIf="roleForm.get('jsonDefinition')?.touched && roleForm.get('jsonDefinition')?.hasError('required')" class="text-danger mt-1">
+            El campo no puede estar vacío.
+          </div>
+
+          <!-- Error: JSON inválido -->
+          <div *ngIf="roleForm.get('jsonDefinition')?.errors?.['invalidJson']" class="text-danger mt-1">
+            El contenido no es un JSON válido.
+          </div>
+
+          <!-- Error: name no coincide con el scope -->
+          <div *ngIf="roleForm.get('jsonDefinition')?.errors?.['nameScopeMismatch']" class="text-danger mt-1">
+            El valor de <strong>"name"</strong> en el JSON no coincide con el Management Group seleccionado.
+          </div>
+
+          <!-- Error: claves faltantes -->
+          <div *ngIf="roleForm.get('jsonDefinition')?.errors?.['missingKeys']" class="text-danger mt-1">
+            Faltan propiedades requeridas:
+            <strong>{{ roleForm.get('jsonDefinition')?.errors?.['missingKeys'].join(', ') }}</strong>
+          </div>
+        </div>
+
+        <!-- Botón -->
+        <div class="d-flex justify-content-end">
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onSubmit()"
+            [disabled]="roleForm.invalid"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

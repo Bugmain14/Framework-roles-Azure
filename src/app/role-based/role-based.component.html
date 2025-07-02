@@ -1,0 +1,62 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h1 class="h4">Role based</h1>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+
+        <fieldset class="mb-3">
+          <legend class="form-label">Elige scope donde deseas crear la definición del rol</legend>
+          <select formControlName="scope" class="form-select" required>
+            <option value="" disabled>Selecciona un scope</option>
+            <option *ngFor="let option of scopeOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <div *ngIf="roleForm.get('scope')?.touched && roleForm.get('scope')?.invalid" class="text-danger">
+            Debes seleccionar un scope.
+          </div>
+
+          <br>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre del nuevo rol</label>
+            <input type="text" formControlName="roleName" class="form-control" required />
+            <div *ngIf="roleForm.get('roleName')?.touched && roleForm.get('roleName')?.invalid" class="text-danger">
+              El nombre del rol es obligatorio.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Ingrese la descripción del nuevo rol</label>
+            <textarea formControlName="roleDescription" class="form-control" rows="5" placeholder="Descripción del rol"></textarea>
+            <div *ngIf="roleForm.get('roleDescription')?.touched && roleForm.get('roleDescription')?.invalid" class="text-danger">
+              La descripción del rol es obligatoria.
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="mb-3">
+          <legend class="form-label">Elige el rol base</legend>
+          <div class="mb-3" *ngFor="let control of baseRolesControls; let i = index">
+            <label class="form-label">Selecciona una Opción</label>
+            <select [formControl]="control" class="form-select">
+              <option value="">Selecciona una opción</option>
+              <option *ngFor="let option of baseRoleOptions" [value]="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+            <div *ngIf="control.touched && control.invalid" class="text-danger">
+              Debes seleccionar un rol base.
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary" [disabled]="roleForm.invalid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
