@@ -1,6 +1,5 @@
 Proyecto: roles-framework (Angular 18)
 
-==============================================
 📦 Requisitos para levantar el proyecto localmente
 ==============================================
 
@@ -12,7 +11,7 @@ Proyecto: roles-framework (Angular 18)
 Puedes instalar Angular CLI ejecutando:
 > npm install -g @angular/cli
 
-==============================================
+
 🚀 Pasos para iniciar el proyecto
 ==============================================
 
@@ -29,7 +28,7 @@ Puedes instalar Angular CLI ejecutando:
 Esto levantará la aplicación en:
 http://localhost:4200
 
-==============================================
+
 🔐 Autenticación con Azure AD (MSAL)
 ==============================================
 
@@ -40,7 +39,7 @@ Estas librerías se instalarán automáticamente con `npm install`:
 - @azure/msal-angular (^4.0.12)
 - @azure/msal-browser (^4.12.0)
 
-==============================================
+
 📄 Notas adicionales
 ==============================================
 
